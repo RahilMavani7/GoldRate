@@ -6,82 +6,94 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import metrics
 
-# Custom CSS for styling
+# Custom CSS for dark theme and golden effects
 st.markdown("""
     <style>
-        /* Main page styling */
-        .main {
-            background-color: #f0f2f6;
-            padding: 2rem;
-        }
-        
-        /* Sidebar styling */
-        .sidebar .sidebar-content {
-            background-color: #1a2330;
-            color: white;
-        }
-        
-        /* Widget styling */
-        .stNumberInput, .stTextInput {
-            background-color: white;
-            border-radius: 8px;
-            padding: 0.5rem;
-        }
-        
-        /* Button styling */
-        .stButton>button {
-            background-color: #2e86c1;
-            color: white;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .stButton>button:hover {
-            background-color: #1b4f72;
-            color: white;
-            transform: scale(1.05);
-        }
-        
-        /* Card styling */
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 1rem 0;
-            transition: transform 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        
-        /* Dataframe styling */
-        .dataframe {
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .dataframe th {
-            background-color: #2e86c1 !important;
-            color: white !important;
-        }
-        
-        .dataframe td {
-            transition: background-color 0.3s ease;
-        }
-        
-        .dataframe tbody tr:hover td {
-            background-color: #f9e79f !important;
-            cursor: pointer;
-        }
-        
-        /* Chart styling */
-        .stPlot {
-            border-radius: 12px;
-            overflow: hidden;
-        }
+    /* Main dark theme */
+    body {
+        background-color: #0E1117;
+        color: #ffffff;
+    }
+    
+    /* Sidebar styling */
+    .sidebar .sidebar-content {
+        background-color: #1a1a1a;
+        color: white;
+    }
+    
+    /* Widget styling */
+    .stNumberInput, .stTextInput, .stSelectbox {
+        background-color: #2d2d2d;
+        color: white;
+        border-radius: 8px;
+    }
+    
+    /* Button styling */
+    .stButton>button {
+        background-color: #2d2d2d;
+        color: #FFD700;
+        border: 1px solid #FFD700;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton>button:hover {
+        background-color: #FFD700;
+        color: #1a1a1a !important;
+        transform: scale(1.05);
+    }
+    
+    /* Card styling */
+    .card {
+        background-color: #1a1a1a;
+        border: 1px solid #2d2d2d;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        border-color: #FFD700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    }
+    
+    /* Dataframe styling */
+    .dataframe {
+        background-color: #1a1a1a !important;
+        color: white !important;
+        border-radius: 8px;
+    }
+    
+    .dataframe th {
+        background-color: #FFD700 !important;
+        color: #1a1a1a !important;
+    }
+    
+    .dataframe td {
+        transition: all 0.3s ease;
+    }
+    
+    .dataframe tbody tr:hover td {
+        background-color: #2d2d2d !important;
+        color: #FFD700 !important;
+    }
+    
+    /* Chart styling */
+    .stPlot {
+        background-color: #1a1a1a;
+        border-radius: 12px;
+        padding: 1rem;
+    }
+    
+    /* Text colors */
+    h1, h2, h3, h4, h5, h6 {
+        color: #FFD700 !important;
+    }
+    
+    p, li {
+        color: #cccccc !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -117,109 +129,106 @@ st.title("💰 Gold Price Prediction App")
 
 # Sidebar Navigation
 page = st.sidebar.radio("Select a Page", 
-    ("🏠 Home", "🔮 Prediction", "📊 Dataset", "🌡️ Correlation Heatmap", "📈 Distribution", "📉 Model Performance"),
+    ("🏠 Home", "🔮 Prediction", "📊 Dataset", "🌡️ Correlation", "📈 Distribution", "📉 Performance"),
     index=0
 )
 
 # Home Page
 if page == "🏠 Home":
     st.markdown("""
-        <div class="card">
-            <h2 style="color: #2e86c1;">Welcome to Gold Price Prediction App! 🌟</h2>
-            <p>This app helps predict gold prices using machine learning based on various economic indicators.</p>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-        <div class="card">
-            <h3 style="color: #1b4f72;">📌 Navigation Guide</h3>
-            <ul>
-                <li><b>🔮 Prediction:</b> Predict gold prices using current market values</li>
-                <li><b>📊 Dataset:</b> View the historical gold price data</li>
-                <li><b>🌡️ Correlation Heatmap:</b> Explore feature relationships</li>
-                <li><b>📈 Distribution:</b> Analyze gold price distribution</li>
-                <li><b>📉 Model Performance:</b> View model evaluation metrics</li>
-            </ul>
-        </div>
+    <div class="card">
+        <h2>Welcome to Gold Price Prediction App! 🌟</h2>
+        <p>This app predicts gold prices using machine learning based on various market indicators:</p>
+        <ul>
+            <li>SPX Index</li>
+            <li>US Oil Fund (USO)</li>
+            <li>Silver Prices (SLV)</li>
+            <li>EUR/USD Exchange Rate</li>
+        </ul>
+    </div>
     """, unsafe_allow_html=True)
 
 # Prediction Page
 elif page == "🔮 Prediction":
     st.markdown("""
-        <div class="card">
-            <h2 style="color: #2e86c1;">Gold Price Prediction 🔮</h2>
-            <p>Enter market values to predict current gold price:</p>
-        </div>
+    <div class="card">
+        <h2>Gold Price Prediction</h2>
+        <p>Enter current market values to predict gold price:</p>
+    </div>
     """, unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
-        spx = st.number_input("S&P 500 Index (SPX)", value=gold_data['SPX'].mean())
-        uso = st.number_input("US Oil Fund (USO)", value=gold_data['USO'].mean())
+        spx = st.number_input("SPX Value", value=gold_data['SPX'].mean())
+        uso = st.number_input("USO Value", value=gold_data['USO'].mean())
     with col2:
-        slv = st.number_input("Silver Price (SLV)", value=gold_data['SLV'].mean())
-        eur_usd = st.number_input("EUR/USD Exchange Rate", value=gold_data['EUR/USD'].mean())
+        slv = st.number_input("SLV Value", value=gold_data['SLV'].mean())
+        eur_usd = st.number_input("EUR/USD Value", value=gold_data['EUR/USD'].mean())
     
-    if st.button("Predict Now 🚀"):
+    if st.button("✨ Predict Gold Price"):
         prediction = predict_gold_price(spx, uso, slv, eur_usd)
         st.markdown(f"""
-            <div class="card" style="background-color: #f9e79f; color: #1b4f72;">
-                <h3>Predicted Gold Price: ${prediction:.2f}</h3>
-                <p>Based on current market values</p>
-            </div>
+        <div class="card" style="border-color: #FFD700;">
+            <h3>Predicted Gold Price (GLD):</h3>
+            <h1 style="color: #FFD700;">${prediction:.2f}</h1>
+        </div>
         """, unsafe_allow_html=True)
 
 # Dataset Page
 elif page == "📊 Dataset":
     st.markdown("""
-        <div class="card">
-            <h2 style="color: #2e86c1;">Historical Gold Price Data 📅</h2>
-            <p>Explore the dataset used for training the model</p>
-        </div>
+    <div class="card">
+        <h2>Gold Price Dataset</h2>
+        <p>Historical market data used for predictions:</p>
+    </div>
     """, unsafe_allow_html=True)
     st.dataframe(gold_data.head(15).style.set_properties(**{
-        'background-color': '#f0f2f6',
-        'color': '#1b4f72',
-        'border': '1px solid #dfe6e9'
+        'background-color': '#1a1a1a',
+        'color': '#ffffff',
+        'border': '1px solid #2d2d2d'
     }))
 
-# Correlation Heatmap Page
-elif page == "🌡️ Correlation Heatmap":
+# Correlation Page
+elif page == "🌡️ Correlation":
     st.markdown("""
-        <div class="card">
-            <h2 style="color: #2e86c1;">Feature Correlation Matrix 🌡️</h2>
-            <p>Explore relationships between different market indicators</p>
-        </div>
+    <div class="card">
+        <h2>Market Indicators Correlation</h2>
+        <p>Relationship between different financial instruments:</p>
+    </div>
     """, unsafe_allow_html=True)
-    correlation = gold_data.corr(numeric_only=True)
+    
     plt.figure(figsize=(10, 8))
-    sns.set_theme(style="white")
-    sns.heatmap(correlation, cbar=True, square=True, fmt='.1f', annot=True, 
-                annot_kws={'size':10}, cmap='YlGnBu', linewidths=0.5)
+    sns.set(style="dark")
+    correlation = gold_data.corr(numeric_only=True)
+    sns.heatmap(correlation, cbar=True, square=True, 
+                fmt='.1f', annot=True, annot_kws={'size':10},
+                cmap='YlOrBr', linewidths=0.5)
     st.pyplot(plt)
 
 # Distribution Page
 elif page == "📈 Distribution":
     st.markdown("""
-        <div class="card">
-            <h2 style="color: #2e86c1;">Gold Price Distribution 📊</h2>
-            <p>Analyze historical price distribution patterns</p>
-        </div>
+    <div class="card">
+        <h2>Gold Price Distribution</h2>
+        <p>Historical price frequency distribution:</p>
+    </div>
     """, unsafe_allow_html=True)
+    
     plt.figure(figsize=(10, 6))
-    sns.set_theme(style="darkgrid")
-    sns.histplot(gold_data['GLD'], color='#2e86c1', kde=True, bins=50)
+    sns.set(style="darkgrid")
+    sns.histplot(gold_data['GLD'], color='#FFD700', 
+                kde=True, bins=50, alpha=0.8)
     plt.xlabel('Gold Price (GLD)')
     plt.ylabel('Frequency')
     st.pyplot(plt)
 
-# Model Performance Page
-elif page == "📉 Model Performance":
+# Performance Page
+elif page == "📉 Performance":
     st.markdown("""
-        <div class="card">
-            <h2 style="color: #2e86c1;">Model Evaluation 📈</h2>
-            <p>Random Forest Regressor performance metrics</p>
-        </div>
+    <div class="card">
+        <h2>Model Performance</h2>
+        <p>Random Forest Regressor evaluation metrics:</p>
+    </div>
     """, unsafe_allow_html=True)
     
     test_data_prediction = regressor.predict(X_test)
@@ -228,18 +237,18 @@ elif page == "📉 Model Performance":
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"""
-            <div class="card" style="background-color: #e8f6f3;">
-                <h3 style="color: #1b4f72;">R-squared Score</h3>
-                <h1 style="color: #2e86c1;">{error_score:.4f}</h1>
-            </div>
+        <div class="card">
+            <h3>R-squared Score</h3>
+            <h1 style="color: #FFD700;">{error_score:.4f}</h1>
+        </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
-            <div class="card" style="background-color: #fdedec;">
-                <h3 style="color: #1b4f72;">Model Details</h3>
-                <p>Algorithm: Random Forest Regressor</p>
-                <p>Estimators: 300 trees</p>
-                <p>Test Size: 20%</p>
-            </div>
+        <div class="card">
+            <h3>Model Details</h3>
+            <p>Algorithm: Random Forest</p>
+            <p>Estimators: 300 trees</p>
+            <p>Test Size: 20%</p>
+        </div>
         """, unsafe_allow_html=True)
